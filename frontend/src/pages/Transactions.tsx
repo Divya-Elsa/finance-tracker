@@ -54,6 +54,8 @@ export function Transactions() {
     <div className="stack">
       <div className="card">
         <p className="section-title">{editing ? "Edit transaction" : "Add a transaction"}</p>
+        {categories.isLoading && <p>Loading categories…</p>}
+        {categories.data && (
         <TransactionForm
           categories={categoryList}
           initial={editing ?? undefined}
@@ -66,6 +68,7 @@ export function Transactions() {
             }
           }}
         />
+        )}
       </div>
 
       <div className="card">

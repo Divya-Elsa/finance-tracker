@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import type { Category, Transaction, TransactionType } from "../api/types";
 
 interface Props {
@@ -31,6 +31,12 @@ export function TransactionForm({ categories, initial, onSubmit, onCancel }: Pro
   const [submitting, setSubmitting] = useState(false);
 
   const availableCategories = categories.filter((c) => c.type === type);
+
+  useEffect(() => {
+    if (categoryId && categories.some((c) => c.id === categoryId && c.type === type)) return;
+    const fallback = categories.find((c) => c.type === type)?.id;
+    if (fallback) setCategoryId(fallback);
+  }, [categories, type, categoryId]);
 
   function handleTypeChange(next: TransactionType) {
     setType(next);
